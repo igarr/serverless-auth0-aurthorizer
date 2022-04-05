@@ -8,20 +8,21 @@ provider:
   name: aws
   runtime: nodejs12.x
   memorySize: 128
+  cors: true
   environment:
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
 
 functions:
   auth:
     handler: src/handlers/auth.handler
-    cors: true
+    
   publicEndpoint:
     handler: src/handlers/public.handler
     events:
       - http:
           path: public
           method: POST
-          cors: true
+
   privateEndpoint:
     handler: src/handlers/private.handler
     events:
@@ -29,7 +30,6 @@ functions:
           path: private
           method: POST
           authorizer: auth
-          cors: true
 
 resources:
   Resources:
